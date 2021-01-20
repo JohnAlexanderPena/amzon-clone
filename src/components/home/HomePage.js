@@ -1,6 +1,6 @@
 import React from "react";
 import "./HomePage.css";
-import Product from "./products/Product";
+import Product from "../products/Product";
 
 const HomePage = () => {
   return (
