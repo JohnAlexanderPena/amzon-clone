@@ -1,27 +1,24 @@
 import React from "react";
 import "./Product.css";
 
-const Product = () => {
+const Product = ({ title, image, price, rating, id }) => {
   return (
     <div className="product">
       <div className="product__info">
-        <p>G-Shock</p>
+        <p>{title}</p>
         <p className="product__price">
           <small>$</small>
-          <strong>109.99</strong>
+          <strong>{price}</strong>
         </p>
         <div className="product__rating">
-          <p>⭐</p>
-          <p>⭐</p>
-          <p>⭐</p>
-          <p>⭐</p>
-          <p>⭐</p>
+          {Array(rating)
+            .fill()
+            .map((_, i) => (
+              <p>⭐</p>
+            ))}
         </div>
       </div>
-      <img
-        src="https://2.bp.blogspot.com/-7oDCwTF13s4/U0wl-MiR1ZI/AAAAAAAAAiQ/qHEVwThkCaI/s1600/%2310+Men's+Black+G-Shock+Digital+Anti-Magnetic+Gold+Tone+Analog+[Watch]+Casio+B0058W9128.jpg"
-        alt="watch"
-      />
+      <img src={image} alt="product_image" />
       <button onClick={() => console.log("clicked")}>Add to Basket</button>
     </div>
   );

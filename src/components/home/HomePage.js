@@ -12,7 +12,12 @@ const HomePage = () => {
           alt="amazon splash"
         />
         <div className="home__row">
-          <Product />
+          <Product
+            title="G Shock Gold"
+            price="$109.99"
+            image="https://2.bp.blogspot.com/-7oDCwTF13s4/U0wl-MiR1ZI/AAAAAAAAAiQ/qHEVwThkCaI/s1600/%2310+Men's+Black+G-Shock+Digital+Anti-Magnetic+Gold+Tone+Analog+[Watch]+Casio+B0058W9128.jpg"
+            rating={5}
+          />
           <Product />
           <Product />
         </div>
