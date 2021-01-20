@@ -1,0 +1,43 @@
+import React from "react";
+import "./Header.css";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import SearchIcon from "@material-ui/icons/Search";
+
+const Header = () => {
+  return (
+    <div className="header">
+      <img
+        className="header__logo"
+        src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
+        alt="logo"
+      />
+      <div className="header__search">
+        <input className="header__searchInput" type="text" />
+        <SearchIcon className="header__searchIcon" />
+      </div>
+
+      <div className="header__nav">
+        <div className="header__option">
+          <span className="header__option_line1">Hello, Guest</span>
+          <span className="header__option_line2">Sign In</span>
+        </div>
+        <div className="header__option">
+          {" "}
+          <span className="header__option_line1">Returns </span>
+          <span className="header__option_line2"> Orders</span>
+        </div>
+        <div className="header__option">
+          {" "}
+          <span className="header__option_line1">Your </span>
+          <span className="header__option_line2"> Prime</span>
+        </div>
+        <div className="header__basketOption">
+          <ShoppingBasketIcon />
+          <span className="header__option_line2 header_basketCount">0</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Header;
