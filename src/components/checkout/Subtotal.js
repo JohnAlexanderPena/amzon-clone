@@ -6,17 +6,16 @@ import { useStateValue } from "../../utils/StateProvider";
 const Subtotal = () => {
   const [{ basket }, dispatch] = useStateValue();
 
+  const total = basket.reduce(function (tot, arr) {
+    return tot + arr.price;
+  }, 0);
+
   return (
     <div className="subtotal">
       <div>
         <>
           <p>
-            Subtotal (0 items):{" "}
-            <strong>
-              {basket.reduce(function (tot, arr) {
-                return tot + arr.price;
-              }, 0)}
-            </strong>
+            Subtotal (0 items): <strong>{Math.ceil(total * 100) / 100}</strong>
           </p>
           <small className="subtotal__gift">
             <input type="checkbox" />
