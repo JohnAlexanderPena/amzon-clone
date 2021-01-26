@@ -2,43 +2,22 @@ import React from "react";
 import CurrencyFormat from "react-currency-format";
 import "./Checkout.css";
 import { useStateValue } from "../../utils/StateProvider";
+import { getBasketTotal } from "../../redux/reducer";
 
 const Subtotal = () => {
   const [{ basket }, dispatch] = useStateValue();
-
-  const total = basket.reduce(function (tot, arr) {
-    return tot + arr.price;
-  }, 0);
-
   return (
     <div className="subtotal">
       <div>
         <>
           <p>
-            Subtotal (0 items): <strong>{Math.ceil(total * 100) / 100}</strong>
+            Subtotal ({basket.length} items):{" "}
+            <strong>${Math.ceil(getBasketTotal(basket) * 100) / 100}</strong>
           </p>
           <small className="subtotal__gift">
             <input type="checkbox" />
             This order contains a gift
           </small>
-          {/* <CurrencyFormat
-        // renderText={
-        //   <>
-        //     <p>
-        //       Subtotal (0 items): <strong>0</strong>
-        //     </p>
-        //     <small className="subtotal__gift">
-        //       <input type="checkbox" />
-        //       This order contains a gift
-        //     </small>
-        //   </>
-        // }
-        decimalScale={2}
-        value={0}
-        displayText={"text"}
-        thousandSeparator={true}
-        prefix={"$"}
-      /> */}
         </>
       </div>
       <button className="subtotal__button">Proceed To Checkout</button>
