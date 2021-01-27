@@ -14,6 +14,7 @@ const Header = () => {
       auth.signOut();
     }
   };
+
   return (
     <div className="header">
       <Link to="/">
@@ -31,7 +32,9 @@ const Header = () => {
       <div className="header__nav">
         <Link to={!user && "/login"}>
           <div onClick={handleUserLogin} className="header__option">
-            <span className="header__option_line1">Hello, Guest</span>
+            <span className="header__option_line1">
+              Hello, {user ? user?.email : "guest"}
+            </span>
             <span className="header__option_line2">
               {user ? "Sign Out" : "Sign In"}
             </span>
