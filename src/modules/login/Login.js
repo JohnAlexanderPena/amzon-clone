@@ -7,6 +7,14 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const signIn = (e) => {
+    e.preventDefault();
+  };
+
+  const register = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="login">
       <Link to="/">
@@ -32,7 +40,13 @@ const Login = () => {
             type="password"
           />
 
-          <button className="login__signin_button">Sign In</button>
+          <button
+            type="submit"
+            className="login__signin_button"
+            onClick={signIn}
+          >
+            Sign In
+          </button>
         </form>
         <p>
           By Signing in you agree to this clone of Amazon Conditions of Use &
@@ -40,7 +54,7 @@ const Login = () => {
           Interest-Based Ads Notice
         </p>
 
-        <button className="login__register_button">
+        <button onClick={register} className="login__register_button">
           Create Your Amazon Account
         </button>
       </div>
