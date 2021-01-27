@@ -7,7 +7,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  console.log(password);
   return (
     <div className="login">
       <Link to="/">
@@ -37,7 +36,7 @@ const Login = () => {
         </form>
         <p>
           By Signing in you agree to this clone of Amazon Conditions of Use &
-          Sale. Please see our Privacy Notice, our cookies Notice and our
+          Sale. Please see our Privacy Notice, our Cookies Notice and our
           Interest-Based Ads Notice
         </p>
 
