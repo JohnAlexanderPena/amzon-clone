@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./Payment.css";
 
 const Payment = () => {
-  const [{ basket, user }, dispatch] = useStateValue();
+  const [{ basket, user }] = useStateValue();
   return (
     <div className="payment">
       <div className="payment__container">
