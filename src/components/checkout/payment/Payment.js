@@ -26,7 +26,7 @@ const Payment = () => {
           <div className="payment__items">
             {basket.map((item) => (
               <CheckoutProduct
-                item={item.id}
+                id={item.id}
                 title={item.title}
                 price={item.price}
                 rating={item.rating}
