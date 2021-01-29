@@ -6,9 +6,11 @@ import "./Payment.css";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { getBasketTotal } from "../../../redux/reducer";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const Payment = () => {
   const [{ basket, user }] = useStateValue();
+  const history = useHistory();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -23,7 +25,18 @@ const Payment = () => {
     e.preventDefault();
     setProcessing(true);
 
-    //   const payload = await stripe
+    const payload = await stripe
+      .confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      })
+      .then(({ paymentIntent }) => {
+        setSucceeded(true);
+        setError(null);
+        setProcessing(false);
+        history.replace("/orders");
+      });
   };
 
   const handleStripeChange = (e) => {
@@ -36,7 +49,12 @@ const Payment = () => {
 
   useEffect(() => {
     const getClientSecret = async () => {
-      const response = await axios;
+      const response = await axios({
+        method: "post",
+        url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
+      });
+
+      setClientSecret(response.data.clientSecret);
     };
 
     getClientSecret();
