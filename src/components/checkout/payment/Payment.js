@@ -4,7 +4,7 @@ import "./Payment.css";
 const Payment = () => {
   return (
     <div className="payment">
-      <div className="payment__container"></div>
+      <div className="payment__container">Payment Goes Here</div>
     </div>
   );
 };
