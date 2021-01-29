@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useStateValue } from "../../../utils/StateProvider";
 import CheckoutProduct from "../CheckoutProduct/CheckoutProduct";
 import { Link } from "react-router-dom";
 import "./Payment.css";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { getBasketTotal } from "../../../redux/reducer";
+import axios from "axios";
 
 const Payment = () => {
   const [{ basket, user }] = useStateValue();
@@ -14,8 +15,16 @@ const Payment = () => {
 
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
+  const [succeeded, setSucceeded] = useState(false);
+  const [processing, setProcessing] = useState("");
+  const [clientSecret, setClientSecret] = useState(true);
 
-  const handleSubmit = (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setProcessing(true);
+
+    //   const payload = await stripe
+  };
 
   const handleStripeChange = (e) => {
     //If field is empty set disabled
@@ -25,6 +34,13 @@ const Payment = () => {
     setError(e.error ? e.error.message : "");
   };
 
+  useEffect(() => {
+    const getClientSecret = async () => {
+      const response = await axios;
+    };
+
+    getClientSecret();
+  }, [basket]);
   return (
     <div className="payment">
       <div className="payment__container">
@@ -74,10 +90,15 @@ const Payment = () => {
               <div className="payment__price_container">
                 <p className="checkoutProduct__price">
                   <small>
-                    Total: $<strong>{getBasketTotal(basket)}</strong>
+                    <strong>Order Total: $</strong>
+                    <strong>{getBasketTotal(basket)}</strong>
                   </small>
                 </p>
+                <button disabled={processing || disabled || succeeded}>
+                  <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
+                </button>
               </div>
+              {error && <div>{error}</div>}
             </form>
           </div>
         </div>
