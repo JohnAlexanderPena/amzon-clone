@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { useStateValue } from "../../../utils/StateProvider";
 import CheckoutProduct from "../CheckoutProduct/CheckoutProduct";
 import { Link } from "react-router-dom";
 import "./Payment.css";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { getBasketTotal } from "../../../redux/reducer";
 
 const Payment = () => {
   const [{ basket, user }] = useStateValue();
+
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const [error, setError] = useState(null);
+  const [disabled, setDisabled] = useState(true);
+
+  const handleSubmit = (e) => {};
+
+  const handleStripeChange = (e) => {
+    //If field is empty set disabled
+    setDisabled(e.empty);
+
+    //If there is an error, show error
+    setError(e.error ? e.error.message : "");
+  };
+
   return (
     <div className="payment">
       <div className="payment__container">
@@ -47,6 +66,19 @@ const Payment = () => {
         <div className="payment__section">
           <div className="payment__title">
             <h3>Payment Method</h3>
+          </div>
+
+          <div className="payment__details">
+            <form onSubmit={handleSubmit}>
+              <CardElement onChange={handleStripeChange} />
+              <div className="payment__price_container">
+                <p className="checkoutProduct__price">
+                  <small>
+                    Total: $<strong>{getBasketTotal(basket)}</strong>
+                  </small>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
       </div>

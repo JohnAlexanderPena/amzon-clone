@@ -31,3 +31,10 @@
 .payment__items {
   flex: 0.8; /* take up 80% of the div*/
 }
+
+.payment__details {
+  flex: 0.8;
+}
+
+.payment__price_container {
+}
