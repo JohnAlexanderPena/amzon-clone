@@ -50,7 +50,9 @@ const Payment = () => {
     const getClientSecret = async () => {
       const response = await axios({
         method: "post",
-        url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/payments/create?total=${
+          getBasketTotal(basket) * 100
+        }`,
       });
 
       setClientSecret(response.data.clientSecret);
@@ -58,6 +60,8 @@ const Payment = () => {
 
     getClientSecret();
   }, [basket]);
+
+  console.log("Secret: >>>>>>>>>>>  ", clientSecret);
   return (
     <div className="payment">
       <div className="payment__container">
