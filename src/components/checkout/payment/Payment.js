@@ -36,6 +36,8 @@ const Payment = () => {
         setProcessing(false);
         history.replace("/orders");
       });
+
+    history.push("/orders");
   };
 
   const handleStripeChange = (e) => {

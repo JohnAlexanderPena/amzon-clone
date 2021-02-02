@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const app = express();
 
+// eslint-disable-next-line object-curly-spacing
 app.use(cors({ origin: true }));
 
 app.use(express.json());
@@ -29,5 +30,3 @@ app.post("/payments/create", async (req, res) => {
 app.get("/test", (req, res) => res.status(200).send("This is a test"));
 
 exports.api = functions.https.onRequest(app);
-
-// (http://localhost:5001/v3-f5de1/us-central1/api)
