@@ -6,6 +6,8 @@ import "./Payment.css";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { getBasketTotal } from "../../../redux/reducer";
 import axios from "axios";
+import { db } from "../../../firebase";
+import API from "../../../utils/API";
 
 const Payment = () => {
   const [{ basket, user }] = useStateValue();
@@ -31,13 +33,22 @@ const Payment = () => {
         },
       })
       .then(({ paymentIntent }) => {
+        console.log(paymentIntent);
+        db.collection("users")
+          .doc(user?.uid)
+          .collection("orders")
+          .doc(paymentIntent.id)
+          .set({
+            basket: basket,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created,
+          });
+
         setSucceeded(true);
         setError(null);
         setProcessing(false);
-        history.replace("/orders");
+        history.push("/orders");
       });
-
-    history.push("/orders");
   };
 
   const handleStripeChange = (e) => {
@@ -50,14 +61,24 @@ const Payment = () => {
 
   useEffect(() => {
     const getClientSecret = async () => {
-      const response = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BACKEND_HOST}/payments/create?total=${
-          getBasketTotal(basket) * 100
-        }`,
-      });
+      //   const response = await API.post({
+      //     // method: "post",
 
-      setClientSecret(response.data.clientSecret);
+      //     // url: `${process.env.REACT_APP_BACKEND_HOST}/payments/create?total=${
+      //     //   getBasketTotal(basket) * 100
+      //     // }`,
+      //     url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
+      //   })
+
+      try {
+        const response = await API.post(
+          `/payments/create?total=${getBasketTotal(basket) * 100}`
+        );
+
+        setClientSecret(response.data.clientSecret);
+      } catch (e) {
+        console.log("axios failed: ", e);
+      }
     };
 
     getClientSecret();
