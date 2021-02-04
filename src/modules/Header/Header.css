@@ -16,8 +16,8 @@
 }
 
 .header__searchInput {
-  height: 12px;
-  padding: 10px;
+  height: 2.3em;
+  /* padding: 15px; */
   border: none;
   width: 100%;
 }

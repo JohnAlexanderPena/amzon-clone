@@ -16,8 +16,10 @@ const Order = ({ order }) => {
           image={order.image}
           price={order.price}
           rating={order.rating}
+          hideButton={true}
         />
       ))}
+      <h3 className="order__total">Order Total: ${order.data.amount / 100}</h3>
     </div>
   );
 };

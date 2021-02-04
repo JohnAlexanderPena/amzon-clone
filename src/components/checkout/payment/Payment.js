@@ -10,7 +10,7 @@ import { db } from "../../../firebase";
 import API from "../../../utils/API";
 
 const Payment = () => {
-  const [{ basket, user }] = useStateValue();
+  const [{ basket, user }, dispatch] = useStateValue();
   const history = useHistory();
 
   const stripe = useStripe();
@@ -22,33 +22,40 @@ const Payment = () => {
   const [processing, setProcessing] = useState("");
   const [clientSecret, setClientSecret] = useState(true);
 
+  console.log(getBasketTotal(basket) * 100);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
 
-    const payload = await stripe
-      .confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-        },
-      })
-      .then(({ paymentIntent }) => {
-        console.log(paymentIntent);
-        db.collection("users")
-          .doc(user?.uid)
-          .collection("orders")
-          .doc(paymentIntent.id)
-          .set({
-            basket: basket,
-            amount: paymentIntent.amount,
-            created: paymentIntent.created,
-          });
+    try {
+      const payload = await stripe
+        .confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: elements.getElement(CardElement),
+          },
+        })
+        .then(({ paymentIntent }) => {
+          console.log(paymentIntent);
+          db.collection("users")
+            .doc(user?.uid)
+            .collection("orders")
+            .doc(paymentIntent.id)
+            .set({
+              basket: basket,
+              amount: paymentIntent.amount,
+              created: paymentIntent.created,
+            });
 
-        setSucceeded(true);
-        setError(null);
-        setProcessing(false);
-        history.push("/orders");
-      });
+          setSucceeded(true);
+          setError(null);
+          setProcessing(false);
+          history.replace("/orders");
+          dispatch({ type: "EMPTY_BASKET" });
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleStripeChange = (e) => {
@@ -80,7 +87,6 @@ const Payment = () => {
         console.log("axios failed: ", e);
       }
     };
-
     getClientSecret();
   }, [basket]);
 
