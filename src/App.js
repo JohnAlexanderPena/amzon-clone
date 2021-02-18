@@ -2,7 +2,12 @@ import "./App.css";
 import React, { useEffect } from "react";
 import Header from "./modules/header/Header";
 import Home from "./components/home/HomePage";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Checkout from "./components/checkout/Checkout";
 import Login from "./modules/login/Login";
 import { auth } from "./firebase";
@@ -17,17 +22,26 @@ const promise = loadStripe("pk_test_RsDaeNakjSsXJA84Jh3nNmgo00ibf8cbgH");
 const App = () => {
   const [{ user }, dispatch] = useStateValue();
 
+  const PrivateRoute = ({ component: Component, ...rest }) => {
+    return (
+      // Show the component only when the user is logged in
+      // Otherwise, redirect the user to /signin page
+      <Route
+        {...rest}
+        render={(props) =>
+          user ? <Component {...props} /> : <Redirect to="/" />
+        }
+      />
+    );
+  };
+
   useEffect(() => {
     //listens for auth changed
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         dispatch({ type: "SET_USER", user: authUser });
-
-        console.log("logged in");
       } else {
         dispatch({ type: "SET_USER", user: null });
-
-        console.log("logged  out");
       }
     });
   }, []);
@@ -42,10 +56,12 @@ const App = () => {
             <Header />
             <Checkout />
           </Route>
-          <Route path="/orders">
+          <PrivateRoute component={Orders} path="/orders" exact />
+
+          {/* <Route path="/orders">
             <Header />
             <Orders />
-          </Route>
+          </Route> */}
           <Route path="/login">
             <Login />
             {/* <Login /> */}

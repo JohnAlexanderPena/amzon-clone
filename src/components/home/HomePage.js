@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./HomePage.css";
 import Product from "../products/Product";
+import axios from "axios";
 
 const HomePage = () => {
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    // getProduct();
+    // return () => {
+    //   cleanup
+    // }
+  }, []);
   return (
     <div className="home">
       <div className="home__container">

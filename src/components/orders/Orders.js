@@ -3,6 +3,7 @@ import { db } from "../../firebase";
 import "./Orders.css";
 import { useStateValue } from "../../utils/StateProvider";
 import Order from "./Order";
+import Header from "../../modules/header/Header";
 
 const Orders = () => {
   const [{ basket, user }, dispatch] = useStateValue();
@@ -31,14 +32,17 @@ const Orders = () => {
   console.log(orders);
 
   return (
-    <div className="orders">
-      <h1>Your Orders</h1>
-      <div className="orders__order">
-        {orders.map((order) => (
-          <Order order={order} />
-        ))}
+    <>
+      <Header />
+      <div className="orders">
+        <h1>Your Orders</h1>
+        <div className="orders__order">
+          {orders.map((order) => (
+            <Order order={order} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
