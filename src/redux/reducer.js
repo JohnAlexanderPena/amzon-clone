@@ -15,7 +15,11 @@ const reducer = (state, action) => {
         ...state,
         basket: [...state.basket, action.item],
       };
-
+    case "SET_SEARCH_TERM":
+      return {
+        ...state,
+        searchTerm: action.searchTerm,
+      };
     case "EMPTY_BASKET":
       return {
         ...state,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import SearchIcon from "@material-ui/icons/Search";
@@ -7,7 +7,7 @@ import { useStateValue } from "../../utils/StateProvider";
 import { auth } from "../../firebase";
 
 const Header = () => {
-  const [{ basket, user }, dispatch] = useStateValue();
+  const [{ basket, user, searchTerm }, dispatch] = useStateValue();
 
   const handleUserLogin = () => {
     if (user) {
@@ -15,6 +15,19 @@ const Header = () => {
     }
   };
 
+  const [keyword, setKeyword] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setKeyword(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: "SET_SEARCH_TERM", searchTerm: keyword });
+  };
+
+  console.log(searchTerm);
   return (
     <div className="header">
       <Link to="/">
@@ -24,10 +37,14 @@ const Header = () => {
           alt="logo"
         />
       </Link>
-      <div className="header__search">
-        <input className="header__searchInput" type="text" />
-        <SearchIcon className="header__searchIcon" />
-      </div>
+      <form onSubmit={handleSubmit} className="header__search">
+        <input
+          onChange={(e) => handleSearch(e)}
+          className="header__searchInput"
+          type="text"
+        />
+        <SearchIcon onClick={handleSubmit} className="header__searchIcon" />
+      </form>
 
       <div className="header__nav">
         <Link to={!user && "/login"}>

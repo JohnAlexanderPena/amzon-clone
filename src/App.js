@@ -46,8 +46,6 @@ const App = () => {
     });
   }, []);
 
-  console.log(user?.email);
-
   return (
     <Router>
       <div className="App">
